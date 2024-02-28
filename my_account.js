@@ -30,11 +30,11 @@
       "is_vip" : true,
       "date_joined" : "2024-02-27",
       "vip_end_date" : "2099-12-12",
-      "used_right_count" : 0,
+      "used_right_count" : 1,
       "register_discount" : 0,
       "vip_start_date" : "2024-02-20",
       "double_vip_price" : 0,
-      "is_join_service_qw" : 0,
+      "is_join_service_qw" : 1,
       "deadline_discount" : 0,
       "month_vip_price" : 2500,
       "username" : "18616871168"
