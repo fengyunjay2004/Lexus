@@ -12,27 +12,27 @@
     "sessionid" : "s49vy3ugf7gm2pdurgbz8jhmnjqv3wqv",
     "username" : "18616871168",
     "current_vip_info" : {
-      "is_join_qw" : 0,
+      "is_join_qw" : 1,
       "vip_fake_price" : 24800,
-      "one_yuan_discount" : 0,
-      "is_countdown_remind" : 0,
-      "is_month_cycle" : 0,
-      "remain_right_count" : 0,
-      "up_level_discount" : 0,
-      "double_vip_fake_price" : 0,
-      "is_join_convert_qw" : 0,
+      "one_yuan_discount" : 1,
+      "is_countdown_remind" : 1,
+      "is_month_cycle" : 1,
+      "remain_right_count" : 1,
+      "up_level_discount" : 1,
+      "double_vip_fake_price" : 1,
+      "is_join_convert_qw" : 1,
       "year_vip_price" : 19800,
       "year_vip_fake_price" : 24800,
       "month_vip_product_fake_price" : 2900,
       "renewal_discount" : 0,
       "vip_price" : 19800,
-      "member_status" : 0,
-      "is_vip" : false,
+      "member_status" : 1,
+      "is_vip" : true,
       "date_joined" : "2024-02-27",
-      "vip_end_date" : "",
+      "vip_end_date" : "2099-12-12",
       "used_right_count" : 0,
       "register_discount" : 0,
-      "vip_start_date" : "",
+      "vip_start_date" : "2024-02-20",
       "double_vip_price" : 0,
       "is_join_service_qw" : 0,
       "deadline_discount" : 0,
@@ -199,7 +199,7 @@
             },
             "type" : "schoolbook",
             "command" : "clickread",
-            "is_vip_free" : false
+            "is_vip_free" : true
           }
         },
         {
@@ -355,7 +355,7 @@
       "btn_action" : {
         "command" : "clickread",
         "type" : "schoolbook",
-        "is_vip_free" : false
+        "is_vip_free" : true
       },
       "subject_books" : [
         {
