@@ -1,7 +1,7 @@
 //////// api2 ///////////
 var body = $response.body;
 var obj = JSON.parse(body);
-obj.data = {
+obj = {
     "user_info": {
     "status": "login",
     "phonenum": "18616871168",
