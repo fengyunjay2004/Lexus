@@ -12,9 +12,9 @@ obj.data = {
     "utk": 328139565,
     "userid": 43130816,
     "vip_detail": {
-      "is_vip": 1
+      "is_vip": true
     },
-    "is_vip": 1,
+    "is_vip": true,
     "ec_name": "",
     "action": {
       "view_name": "main_user",
