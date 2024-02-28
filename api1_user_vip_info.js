@@ -1,1 +1,35 @@
-
+//////// api1 ///////////
+var body = $response.body;
+var obj = JSON.parse(body);
+obj = {
+  "username": "18616871168",
+  "is_vip": true,
+  "is_join_qw": 0,
+  "is_join_service_qw": 0,
+  "is_join_convert_qw": 0,
+  "is_countdown_remind": 0,
+  "is_month_cycle": 0,
+  "member_status": 1,
+  "vip_start_date": "1709087951",
+  "vip_end_date": "4075929551",
+  "used_right_count": 0,
+  "remain_right_count": 0,
+  "up_level_discount": 0,
+  "renewal_discount": 0,
+  "register_discount": 0,
+  "deadline_discount": 0,
+  "one_yuan_discount": 0,
+  "vip_price": 19800,
+  "vip_fake_price": 24800,
+  "year_vip_price": 19800,
+  "year_vip_fake_price": 24800,
+  "month_vip_price": 2500,
+  "month_vip_product_fake_price": 2900,
+  "double_vip_price": 0,
+  "double_vip_fake_price": 0,
+  "date_joined": "2024-02-27",
+  "all_click_count": 0,
+  "read_listen_book_count": 0
+}
+body = JSON.stringify(obj);
+$done({body});
