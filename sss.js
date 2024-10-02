@@ -1,5 +1,5 @@
 /*
-//cookie sss
+//cookie 申工社
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
