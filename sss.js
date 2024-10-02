@@ -10,20 +10,30 @@ hostname = fwdt.shengongshe.orgcookie 申工社
 ^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js?token=GHSAT0AAAAAACYJK2HBOIHPJNGW4GM45ATQZX4476A
 
  */
-const APIKey = "110110";
-const $ = new API(APIKey, true);
+const $ = new API(null, true);  // 去掉 APIKey，直接传 null 或者其他参数
 
 if ($request) GetHeaders();
 
 function GetHeaders() {
   // 检查 URL 是否匹配目标请求
   if ($request.url.indexOf("https://fwdt.shengongshe.org/sgsWchartApi/api/MyIntegral/checkIsSign") !== -1) {
-    // 获取 Cookie、X-XSRF-TOKEN 和 token 值
-    let cookie = $request.headers['Cookie'];            // 提取 Cookie
+    
+    // 提取 X-XSRF-TOKEN 和 token 值
     let xsrfToken = $request.headers['X-XSRF-TOKEN'];   // 提取 X-XSRF-TOKEN
     let token = $request.headers['token'];              // 提取 token
 
-    // 如果找到这些字段
+    /*
+    // 如果需要提取 Cookie，则解除注释
+    let cookie = $request.headers['Cookie'];            // 提取 Cookie
+    if (cookie) {
+      $.write(cookie, `sgs_Cookie`);                    // 保存 Cookie
+      $.notify(`成功`, `Cookie 获取成功`, cookie);      // 通知 Cookie 获取成功
+      $.info(`Cookie: ${cookie}`);                      // 输出 Cookie 到控制台
+    } else {
+      $.notify(`失败`, `未找到 Cookie`, `请检查请求头`);  // 如果未找到 Cookie，通知用户
+    }
+    */
+
     if (xsrfToken) {
       $.write(xsrfToken, `sgs_XSRFToken`);              // 保存 X-XSRF-TOKEN
       $.notify(`成功`, `X-XSRF-TOKEN 获取成功`, xsrfToken); // 通知 X-XSRF-TOKEN 获取成功
@@ -43,9 +53,6 @@ function GetHeaders() {
 }
 
 $.done();
-
-
-
 
 /* prettier-ignore */
 function ENV(){const isJSBox=typeof require=="function"&&typeof $jsbox!="undefined";return{isQX:typeof $task!=="undefined",isLoon:typeof $loon!=="undefined",isSurge:typeof $httpClient!=="undefined"&&typeof $utils!=="undefined",isBrowser:typeof document!=="undefined",isNode:typeof require=="function"&&!isJSBox,isJSBox,isRequest:typeof $request!=="undefined",isScriptable:typeof importModule!=="undefined",isShadowrocket:"undefined"!==typeof $rocket,isStash:"undefined"!==typeof $environment&&$environment["stash-version"]}}
