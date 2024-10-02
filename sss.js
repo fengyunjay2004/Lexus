@@ -3,7 +3,7 @@
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss?token=GHSAT0AAAAAACYJK2HA4EVIFOSEOEZPO2A4ZX442FA
+^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js?token=GHSAT0AAAAAACYJK2HBOIHPJNGW4GM45ATQZX4476A
 
  */
 const APIKey = "yy_10000";
