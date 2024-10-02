@@ -1,12 +1,13 @@
 /*
-//cookie 申工社
+===================
+[MITM]
+hostname = fwdt.shengongshe.orgcookie 申工社
+
+===================
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
 ^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js?token=GHSAT0AAAAAACYJK2HBOIHPJNGW4GM45ATQZX4476A
-[MITM]
-hostname = fwdt.shengongshe.org
-
 
  */
 const APIKey = "110110";
