@@ -1,7 +1,7 @@
 /*
 ===================
 [MITM]
-hostname = fwdt.shengongshe.orgcookie
+hostname = fwdt.shengongshe.org
 
 ===================
 【 QX  脚本配置 】 :
