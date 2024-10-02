@@ -7,7 +7,7 @@ hostname = fwdt.shengongshe.org
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js?token=GHSAT0AAAAAACYJK2HBOIHPJNGW4GM45ATQZX4476A
+^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
 
  */
 const $ = new API(null, true);  // 去掉 APIKey，直接传 null 或者其他参数
