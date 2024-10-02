@@ -7,7 +7,7 @@ hostname = fwdt.shengongshe.org
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
+^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp  url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
 
  */
 const APIKey = "yy_10000";
