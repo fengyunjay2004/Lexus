@@ -10,7 +10,8 @@ hostname = fwdt.shengongshe.org
 ^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
 
  */
-const $ = new API(null, true);  // 去掉 APIKey，直接传 null 或者其他参数
+const APIKey = "yy_10000";
+const $ = new API(APIKey, true);
 
 if ($request) GetHeaders();
 
