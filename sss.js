@@ -1,5 +1,5 @@
 /*
-//抓取申工社
+//cookie sss
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
@@ -9,7 +9,7 @@ hostname = fwdt.shengongshe.org
 
 
  */
-const APIKey = "yy_10000";
+const APIKey = "110110";
 const $ = new API(APIKey, true);
 
 if ($request) GetHeaders();
