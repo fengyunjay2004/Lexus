@@ -11,9 +11,6 @@ hostname = fwdt.shengongshe.org
 
  */
 
-const APIKey = "yy_10000";
-const $ = new API(APIKey, true);
-
 if ($request) GetHeaders();
 
 function GetHeaders() {
