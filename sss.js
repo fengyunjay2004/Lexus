@@ -7,7 +7,7 @@ hostname = fwdt.shengongshe.org
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/MyIntegral\/checkIsSign url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
+^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url reject-dict https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
 
  */
 const $ = new API(null, true);  // 去掉 APIKey，直接传 null 或者其他参数
@@ -16,7 +16,7 @@ if ($request) GetHeaders();
 
 function GetHeaders() {
   // 检查 URL 是否匹配目标请求
-  if ($request.url.indexOf("https://fwdt.shengongshe.org/sgsWchartApi/api/MyIntegral/checkIsSign") !== -1) {
+  if ($request.url.indexOf("fwdt.shengongshe.org/sgsWchartApi/api/User/getUserInfoForApp") !== -1) {
     
     // 提取 X-XSRF-TOKEN 和 token 值
     let xsrfToken = $request.headers['X-XSRF-TOKEN'];   // 提取 X-XSRF-TOKEN
