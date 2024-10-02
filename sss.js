@@ -31,16 +31,6 @@ function GetHeaders() {
       $.write(token, `sgs_Token`);                      // 保存 token
       $.notify(`成功`, `X-XSRF-TOKEN 和 Token 获取成功`, `X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`); // 合并通知
       $.info(`X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`);  // 输出 X-XSRF-TOKEN 和 token 到控制台
-    } else if (xsrfToken) {
-      // 只有 X-XSRF-TOKEN 存在
-      $.write(xsrfToken, `sgs_XSRFToken`);
-      $.notify(`成功`, `X-XSRF-TOKEN 获取成功`, `X-XSRF-TOKEN: ${xsrfToken}`);
-      $.info(`X-XSRF-TOKEN: ${xsrfToken}`);
-    } else if (token) {
-      // 只有 token 存在
-      $.write(token, `sgs_Token`);
-      $.notify(`成功`, `Token 获取成功`, `Token: ${token}`);
-      $.info(`Token: ${token}`);
     } else {
       // 如果两个值都未找到
       $.notify(`失败`, `未找到 X-XSRF-TOKEN 和 Token`, `请检查请求头`);
