@@ -7,7 +7,7 @@ hostname = fwdt.shengongshe.org
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url reject-dict https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
+^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
 
  */
 const $ = new API(null, true);  // 去掉 APIKey，直接传 null 或者其他参数
