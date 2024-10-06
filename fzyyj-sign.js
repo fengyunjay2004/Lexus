@@ -8,7 +8,7 @@ hostname = fzyyj-signin.szcy-fintech.com
 ===================
 [rewrite_local]
 ^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/signin url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
- 
+
 */
 
 const APIKey = "yy_10000";
@@ -19,14 +19,9 @@ if ($request) GetHeaders();
 function GetHeaders() {
   // 检查 URL 是否匹配目标请求
   if ($request.url.indexOf("https://fzyyj-signin.szcy-fintech.com/fzyyj/game/signin") !== -1) {
-    // 获取请求头中的字段
     
-    
-    let token = $request.headers['token'];              // 提取 token
-
-    // 如果找到这些字段
-    
-    let cookie = $request.headers['Cookie'];            // 提取 Cookie
+    // 提取 Cookie
+    let cookie = $request.headers['Cookie'];
     if (cookie) {
       $.write(cookie, `sgs_Cookie`);                    // 保存 Cookie
       $.notify(`成功`, `Cookie 获取成功`, cookie);      // 通知 Cookie 获取成功
@@ -35,31 +30,67 @@ function GetHeaders() {
       $.notify(`失败`, `未找到 Cookie`, `请检查请求头`);  // 如果未找到 Cookie，通知用户
     }
     
-    let authorization = $request.headers['Authorization'];   // 提取 Authorization
+    // 提取 Authorization
+    let authorization = $request.headers['Authorization'];
     if (authorization) {
-      $.write(authorization, `authorization`);              // 保存 X-XSRF-TOKEN
-      $.notify(`成功`, `Authorization 获取成功`, xsrfToken); // 通知 X-XSRF-TOKEN 获取成功
-      $.info(`authorization: ${authorization}`);             // 输出 X-XSRF-TOKEN 到控制台
+      $.write(authorization, `authorization`);              // 保存 Authorization
+      $.notify(`成功`, `Authorization 获取成功`, authorization); // 通知 Authorization 获取成功
+      $.info(`authorization: ${authorization}`);             // 输出 Authorization 到控制台
     } else {
-      $.notify(`失败`, `未找到 authorization`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 时通知
+      $.notify(`失败`, `未找到 Authorization`, `请检查请求头`);  // 未找到 Authorization 时通知
     }
-    
-    /*
-    if (token) {
-      $.write(token, `sgs_Token`);                      // 保存 token
-      $.notify(`成功`, `Token 获取成功`, token);        // 通知 token 获取成功
-      $.info(`Token: ${token}`);                        // 输出 token 到控制台
-    } else {
-      $.notify(`失败`, `未找到 token`, `请检查请求头`);  // 未找到 token 时通知
-    }
-    */
-    
   }
 }
 
-$.done();
+// 动态添加时间戳到 URL
+if ($request && $request.url) {
+  let timestamp = new Date().getTime();   // 获取当前时间戳
+  let newUrl = $request.url;
 
-/* prettier-ignore */
-function ENV(){const isJSBox=typeof require=="function"&&typeof $jsbox!="undefined";return{isQX:typeof $task!=="undefined",isLoon:typeof $loon!=="undefined",isSurge:typeof $httpClient!=="undefined"&&typeof $utils!=="undefined",isBrowser:typeof document!=="undefined",isNode:typeof require=="function"&&!isJSBox,isJSBox,isRequest:typeof $request!=="undefined",isScriptable:typeof importModule!=="undefined",isShadowrocket:"undefined"!==typeof $rocket,isStash:"undefined"!==typeof $environment&&$environment["stash-version"]}}
-/* prettier-ignore */
-function HTTP(defaultOptions={baseURL:""}){const{isQX,isLoon,isSurge,isScriptable,isNode,isBrowser,isShadowrocket,isStash,}=ENV();const methods=["GET","POST","PUT","DELETE","HEAD","OPTIONS","PATCH"];const URL_REGEX=/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;function send(method,options){options=typeof options==="string"?{url:options}:options;const baseURL=defaultOptions.baseURL;if(baseURL&&!URL_REGEX.test(options.url||"")){options.url=baseURL?baseURL+options.url:options.url}if(options.body&&options.headers&&!options.headers["Content-Type"]){options.headers["Content-Type"]="application/x-www-form-urlencoded"}options={...defaultOptions,...options};const timeout=options.timeout;const events={...{onRequest:()=>{},onResponse:(resp)=>resp,onTimeout:()=>{},},...options.events,};events.onRequest(method,options);let worker;if(isQX){worker=$task.fetch({method,...options})}else if(isLoon||isSurge||isNode||isShadowrocket||isStash){worker=new Promise((resolve,reject)=>{const request=isNode?require("request"):$httpClient;request[method.toLowerCase()](options,(err,response,body)=>{if(err)reject(err);else resolve({statusCode:response.status||response.statusCode,headers:response.headers,body,})})})}else if(isScriptable){const request=new Request(options.url);request.method=method;request.headers=options.headers;request.body=options.body;worker=new Promise((resolve,reject)=>{request.loadString().then((body)=>{resolve({statusCode:request.response.statusCode,headers:request.response.headers,body,})}).catch((err)=>reject(err))})}else if(isBrowser){worker=new Promise((resolve,reject)=>{fetch(options.url,{method,headers:options.headers,body:options.body,}).then((response)=>response.json()).then((response)=>resolve({statusCode:response.status,headers:response.headers,body:response.data,})).catch(reject)})}let timeoutid;const timer=timeout?new Promise((_,reject)=>{timeoutid=setTimeout(()=>{events.onTimeout();return reject(`${method}URL:${options.url}exceeds the timeout ${timeout}ms`)},timeout)}):null;return(timer?Promise.race([timer,worker]).then((res)=>{clearTimeout(timeoutid);return res}):worker).then((resp)=>events.onResponse(resp))}const http={};methods.forEach((method)=>(http[method.toLowerCase()]=(options)=>send(method,options)));return http}
+  // 检查 URL 是否已有参数
+  if (newUrl.indexOf('?') !== -1) {
+    newUrl += `&timestamp=${timestamp}`;
+  } else {
+    newUrl += `?timestamp=${timestamp}`;
+  }
+
+  // 重新发起带时间戳的请求
+  $done({url: newUrl});
+} else {
+  $done();
+}
+
+// API类的定义，方便处理存储、通知等功能
+function API(key, isDebug) {
+  this.key = key;
+  this.isDebug = isDebug;
+
+  // 保存数据
+  this.write = (data, key) => {
+    if (typeof data === 'string') {
+      $persistentStore.write(data, key);
+    }
+  };
+
+  // 读取数据
+  this.read = (key) => {
+    return $persistentStore.read(key);
+  };
+
+  // 发送通知
+  this.notify = (title, subtitle, message) => {
+    $notification.post(title, subtitle, message);
+  };
+
+  // 输出到控制台（仅在调试模式下）
+  this.info = (message) => {
+    if (this.isDebug) {
+      console.log(message);
+    }
+  };
+
+  // 结束请求处理
+  this.done = (obj) => {
+    $done(obj);
+  };
+}
