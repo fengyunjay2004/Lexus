@@ -11,41 +11,25 @@ hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
 
 */
 
-const APIKey = "yy_10000";
-const $ = new API(APIKey, true);
-
-if ($request) GetHeaders();
-
-function GetHeaders() {
-  // 检查 URL 是否匹配目标请求
-  if ($request.url.indexOf("fzyyj-signin.szcy-fintech.com/assets") !== -1) {
-    
-    // 提取 Cookie
-    let cookie = $request.headers['Cookie'];
-    if (cookie) {
-      $.write(cookie, `sgs_Cookie`);                    // 保存 Cookie
-      $.notify(`成功`, `Cookie 获取成功`, cookie);      // 通知 Cookie 获取成功
-      $.info(`Cookie: ${cookie}`);                      // 输出 Cookie 到控制台
-    } else {
-      $.notify(`失败`, `未找到 Cookie`, `请检查请求头`);  // 如果未找到 Cookie，通知用户
+if ($request) {
+    let url = $request.url;
+    if (url.indexOf("https://fzyyj-signin.szcy-fintech.com/assets/save-167ad561.png") !== -1) {
+        
+        let cookie = $request.headers['Cookie'];
+        if (cookie) {
+            $prefs.setValueForKey(cookie, "cookieKey");  // 保存 Cookie 到本地存储
+            $notify("成功", "Cookie 已保存", cookie);
+        }
+        
+        let authorization = $request.headers['Authorization'];
+        if (authorization) {
+            $prefs.setValueForKey(authorization, "authKey");  // 保存 Authorization
+            $notify("成功", "Authorization 已保存", authorization);
+        }
     }
-
-    /*
-    // 提取 Authorization
-    let authorization = $request.headers['Authorization'];
-    if (authorization) {
-      $.write(authorization, `authorization`);              // 保存 Authorization
-      $.notify(`成功`, `Authorization 获取成功`, authorization); // 通知 Authorization 获取成功
-      $.info(`authorization: ${authorization}`);             // 输出 Authorization 到控制台
-    } else {
-      $.notify(`失败`, `未找到 Authorization`, `请检查请求头`);  // 未找到 Authorization 时通知
-    }
-    */
-    
-  }
 }
 
-$.done();
+$done();
 
 /* prettier-ignore */
 function ENV(){const isJSBox=typeof require=="function"&&typeof $jsbox!="undefined";return{isQX:typeof $task!=="undefined",isLoon:typeof $loon!=="undefined",isSurge:typeof $httpClient!=="undefined"&&typeof $utils!=="undefined",isBrowser:typeof document!=="undefined",isNode:typeof require=="function"&&!isJSBox,isJSBox,isRequest:typeof $request!=="undefined",isScriptable:typeof importModule!=="undefined",isShadowrocket:"undefined"!==typeof $rocket,isStash:"undefined"!==typeof $environment&&$environment["stash-version"]}}
