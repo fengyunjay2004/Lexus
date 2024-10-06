@@ -7,8 +7,8 @@ hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-167ad561.png url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
-^https:\/\/prod\.fzyyj\.fintechboc\.cn\/fz_app\/api\/Notice\/sysTmNotics url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-\d+\.png url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+
 */
 
 const APIKey = "yy_10000";
@@ -18,7 +18,7 @@ if ($request) GetHeaders();
 
 function GetHeaders() {
   // 检查 URL 是否匹配目标请求
-  if ($request.url.indexOf("https://prod.fzyyj.fintechboc.cn/fz_app/api/Notice/sysTmNotics") !== -1) {
+  if ($request.url.indexOf("https://fzyyj-signin.szcy-fintech.com/assets") !== -1) {
     
     // 提取 Cookie
     let cookie = $request.headers['Cookie'];
@@ -29,7 +29,8 @@ function GetHeaders() {
     } else {
       $.notify(`失败`, `未找到 Cookie`, `请检查请求头`);  // 如果未找到 Cookie，通知用户
     }
-    
+
+    /*
     // 提取 Authorization
     let authorization = $request.headers['Authorization'];
     if (authorization) {
@@ -39,6 +40,8 @@ function GetHeaders() {
     } else {
       $.notify(`失败`, `未找到 Authorization`, `请检查请求头`);  // 未找到 Authorization 时通知
     }
+    */
+    
   }
 }
 
