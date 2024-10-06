@@ -35,7 +35,7 @@ if ($request) {
                 console.log(`Authorization值:\n${token}`);
                 
                 // 调用发送钉钉消息的函数
-                sendDingTalkMessage(`福仔云游记的Cookie值：\n${cookie}\nAuthorization值：\n${token}`);
+                sendDingTalkMessage(`成功提取的 Cookie: ${cookie}\n提取的 Authorization: ${token}`);
             } else {
                 // 未找到 token 时，发送通知
                 $notify("失败", "未找到 token", "请检查 Cookie");
@@ -53,7 +53,7 @@ if ($request) {
 
 // 发送钉钉消息的函数
 function sendDingTalkMessage(content) {
-    let webhookURL = "https://oapi.dingtalk.com/robot/send?access_token=90315bbbc30de5de178af71a7cf78f9b78d8983957ce20a2999166e0f0a61526";  // 将此处替换为你的钉钉机器人 Webhook 地址
+    let webhookURL = "https://oapi.dingtalk.com/robot/send?access_token=XXXXXX";  // 将此处替换为你的钉钉机器人 Webhook 地址
     let body = {
         "msgtype": "text",
         "text": {
@@ -63,7 +63,6 @@ function sendDingTalkMessage(content) {
 
     let options = {
         url: webhookURL,
-        method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
@@ -71,14 +70,19 @@ function sendDingTalkMessage(content) {
     };
 
     // 发送 POST 请求到钉钉
-    $task.fetch(options).then(response => {
-        console.log("钉钉消息发送成功");
-    }).catch(error => {
-        console.log("钉钉消息发送失败: " + error);
+    $httpClient.post(options, function(error, response, data) {
+        if (error) {
+            console.log("钉钉消息发送失败: " + error);
+            $notify("钉钉通知", "发送失败", error);
+        } else {
+            console.log("钉钉消息发送成功: " + data);
+            $notify("钉钉通知", "发送成功", "钉钉消息发送成功");
+        }
     });
 }
 
 $done();  // 结束脚本
+
 
 
 
