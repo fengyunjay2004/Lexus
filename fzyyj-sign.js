@@ -53,7 +53,7 @@ if ($request) {
 
 // 发送钉钉消息的函数
 function sendDingTalkMessage(content) {
-    let webhookURL = "https://oapi.dingtalk.com/robot/send?access_token=XXXXXX";  // 将此处替换为你的钉钉机器人 Webhook 地址
+    let webhookURL = "90315bbbc30de5de178af71a7cf78f9b78d8983957ce20a2999166e0f0a61526";  // 将此处替换为你的钉钉机器人 Webhook 地址
     let body = {
         "msgtype": "text",
         "text": {
