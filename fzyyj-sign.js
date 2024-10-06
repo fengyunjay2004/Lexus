@@ -18,7 +18,7 @@ if ($request) {
         let cookie = $request.headers['Cookie'];
         if (cookie) {
             $prefs.setValueForKey(cookie, "cookieKey");  // 保存 Cookie 到本地存储
-            $notify("成功", "Cookie 已保存", cookie);
+            $notify("成功", "Cookie 已保存", `以下是获取到的 Cookie:\n${cookie}`);
         }
         
         let authorization = $request.headers['Authorization'];
