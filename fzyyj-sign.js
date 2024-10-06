@@ -19,6 +19,21 @@ if ($request) {
         if (cookie) {
             $prefs.setValueForKey(cookie, "cookieKey");  // 保存 Cookie 到本地存储
             $notify("成功", "Cookie 已保存", `以下是获取到的 Cookie:\n${cookie}`);
+            let tokenMatch = cookie.match(/token=([^;]+)/);
+            if (tokenMatch) {
+                // 提取到的 token 值
+                let token = tokenMatch[1].replace(/%20/g, " ");  // 将 %20 替换为空格
+                
+                // 保存 token 到本地存储
+                $prefs.setValueForKey(token, "tokenKey");  
+                
+                // 发送通知，显示提取的 token
+                $notify("成功", "Token 已提取", `Token:\n${token}`);
+                console.log(`Token: ${token}`);
+            } else {
+                // 未找到 token 时，发送通知
+                $notify("失败", "未找到 token", "请检查 Cookie");
+            }
         }
         
         let authorization = $request.headers['Authorization'];
