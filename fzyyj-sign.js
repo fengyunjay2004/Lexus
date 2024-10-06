@@ -25,11 +25,11 @@ if ($request) {
                 let token = tokenMatch[1].replace(/%20/g, " ");  // 将 %20 替换为空格
                 
                 // 保存 token 到本地存储
-                $prefs.setValueForKey(token, "tokenKey");  
+                $prefs.setValueForKey(token, "AuthorizationKey");  
                 
                 // 发送通知，显示提取的 token
-                $notify("成功", "Token 已提取", `Token:\n${token}`);
-                console.log(`Token: ${token}`);
+                $notify("成功", "Authorization 已提取", `Authorization:\n${token}`);
+                console.log(`Authorization: ${token}`);
             } else {
                 // 未找到 token 时，发送通知
                 $notify("失败", "未找到 token", "请检查 Cookie");
