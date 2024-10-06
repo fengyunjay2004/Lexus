@@ -18,7 +18,7 @@ if ($request) GetHeaders();
 
 function GetHeaders() {
   // 检查 URL 是否匹配目标请求
-  if ($request.url.indexOf("https://fzyyj-signin.szcy-fintech.com/assets") !== -1) {
+  if ($request.url.indexOf("https://fzyyj-signin.szcy-fintech.com/fzyyj/game/signin") !== -1) {
     
     // 提取 Cookie
     let cookie = $request.headers['Cookie'];
