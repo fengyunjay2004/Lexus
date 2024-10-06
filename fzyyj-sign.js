@@ -20,6 +20,7 @@ if ($request) {
         if (cookie) {
             $prefs.setValueForKey(cookie, "cookieKey");  // 保存 Cookie 到本地存储
             //$notify("成功", "Cookie 已保存", `以下是获取到的 Cookie:\n${cookie}`);
+            console.log(`cookie值: ${cookie}`);
             let tokenMatch = cookie.match(/token=([^;]+)/);
             if (tokenMatch) {
                 // 提取到的 token 值
@@ -30,7 +31,7 @@ if ($request) {
                 
                 // 发送通知，显示提取的 token
                 $notify("成功", "Authorization 已提取", `以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${token}`);
-                console.log(`Authorization: ${token}`);
+                console.log(`Authorization值: ${token}`);
             } else {
                 // 未找到 token 时，发送通知
                 $notify("失败", "未找到 token", "请检查 Cookie");
