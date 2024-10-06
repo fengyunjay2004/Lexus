@@ -7,7 +7,7 @@ hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-\d+\.png url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-167ad561.png url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
 
 */
 
