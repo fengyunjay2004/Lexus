@@ -10,9 +10,10 @@ hostname = fwdt.shengongshe.org
 ^https:\/\/fwdt\.shengongshe\.org\/sgsWchartApi\/api\/User\/getUserInfoForApp url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/sss.js
  
 */
-let xsrfToken = $request.headers['X-XSRF-TOKEN'];   // 提取 X-XSRF-TOKEN
-let token = $request.headers['token'];              // 提取 token
+
 if ($request) {
+    let xsrfToken = $request.headers['X-XSRF-TOKEN'];   // 提取 X-XSRF-TOKEN
+    let token = $request.headers['token'];              // 提取 token
     let url = $request.url;
     if (url.indexOf("https://fwdt.shengongshe.org/sgsWchartApi/api/User/getUserInfoForApp") !== -1) {
        if (xsrfToken && token) {
