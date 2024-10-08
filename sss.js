@@ -25,33 +25,52 @@ if ($request) {
 
             // 发送到企业微信消息
             let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; // 企业微信机器人 Webhook 地址
-            let wechatMessage = {
+            let wechatMessage1 = {
                 "msgtype": "text",
                 "text": {
-                    "content": `Token值 & X-XSRF-TOKEN值\n\n${message}`
+                    "content": `申工社 成功获取Token值&X-XSRF-TOKEN值`
                 }
             };
             
-            // 使用 $task.fetch 发送 POST 请求
-            let options = {
+            let wechatMessage2 = {
+                "msgtype": "text",
+                "text": {
+                    "content": `${message}`
+                }
+            };
+            
+            // 使用 $task.fetch 发送第一条消息
+            let options1 = {
                 url: wechatWebhookUrl,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(wechatMessage)
+                body: JSON.stringify(wechatMessage1)
             };
-
-            $task.fetch(options).then(response => {
-                console.log(`企业微信消息发送成功: ${response.body}`);
+            
+            $task.fetch(options1).then(response => {
+                console.log(`第一条消息发送成功: ${response.body}`);
+            
+                // 使用 $task.fetch 发送第二条消息
+                let options2 = {
+                    url: wechatWebhookUrl,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(wechatMessage2)
+                };
+            
+                return $task.fetch(options2).then(response => {
+                    console.log(`第二条消息发送成功: ${response.body}`);
+                });
+            
             }, reason => {
-                console.log(`企业微信消息发送失败: ${reason.error}`);
+                console.log(`第一条消息发送失败: ${reason.error}`);
             });
-        } else {
-            $notify(`失败`, `未找到 X-XSRF-TOKEN 和 Token`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 和 Token 时通知
-        }
+       }
     }
-}
 
 $done();
 
