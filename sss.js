@@ -15,6 +15,7 @@ if ($request) {
     let xsrfToken = $request.headers['X-XSRF-TOKEN'];   // 提取 X-XSRF-TOKEN
     let token = $request.headers['token'];              // 提取 token
     let url = $request.url;
+    
     if (url.indexOf("https://fwdt.shengongshe.org/sgsWchartApi/api/User/getUserInfoForApp") !== -1) {
         if (xsrfToken && token) {
             $prefs.setValueForKey(xsrfToken, "xsrfTokenKey");  // 保存 xsrfToken 到本地存储
@@ -64,14 +65,22 @@ if ($request) {
             
                 return $task.fetch(options2).then(response => {
                     console.log(`第二条消息发送成功: ${response.body}`);
+                    $done(); // 在第二条消息发送成功后调用 $done()
                 });
             
             }, reason => {
                 console.log(`第一条消息发送失败: ${reason.error}`);
+                $done(); // 在第一条消息发送失败后调用 $done()
             });
-       }
-    }
 
-$done();
+        } else {
+            $notify(`失败`, `未找到 X-XSRF-TOKEN 和 Token`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 和 Token 时通知
+            $done(); // 未找到 token 时调用 $done()
+        }
+    } else {
+        $done(); // URL 不匹配时调用 $done()
+    }
+}
+
 
 
