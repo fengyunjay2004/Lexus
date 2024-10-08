@@ -36,21 +36,23 @@ function GetHeaders() {
     }
     */
 
-    if (xsrfToken) {
-      $.write(xsrfToken, `sgs_XSRFToken`);              // 保存 X-XSRF-TOKEN
-      $.notify(`成功`, `X-XSRF-TOKEN 获取成功`, xsrfToken); // 通知 X-XSRF-TOKEN 获取成功
-      $.info(`X-XSRF-TOKEN: ${xsrfToken}`);             // 输出 X-XSRF-TOKEN 到控制台
-    } else {
-      $.notify(`失败`, `未找到 X-XSRF-TOKEN`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 时通知
-    }
+   if (xsrfToken && token) {
+     $.write(xsrfToken, `sgs_XSRFToken`);             // 保存 X-XSRF-TOKEN
+     $.write(token, `sgs_Token`);                     // 保存 token
+     $.notify(`成功`, `X-XSRF-TOKEN 和 Token 获取成功`, `X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`);  // 合并通知
+     $.info(`X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`);  // 输出 X-XSRF-TOKEN 和 Token 到控制台
+   } else if (xsrfToken) {
+     $.write(xsrfToken, `sgs_XSRFToken`);              // 保存 X-XSRF-TOKEN
+     $.notify(`部分成功`, `仅获取到 X-XSRF-TOKEN`, `X-XSRF-TOKEN: ${xsrfToken}`);  // 通知仅获取到 X-XSRF-TOKEN
+     $.info(`X-XSRF-TOKEN: ${xsrfToken}`);             // 输出 X-XSRF-TOKEN 到控制台
+   } else if (token) {
+     $.write(token, `sgs_Token`);                      // 保存 token
+     $.notify(`部分成功`, `仅获取到 Token`, `Token: ${token}`);  // 通知仅获取到 Token
+     $.info(`Token: ${token}`);                        // 输出 token 到控制台
+   } else {
+     $.notify(`失败`, `未找到 X-XSRF-TOKEN 和 Token`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 和 Token 时通知
+   }
 
-    if (token) {
-      $.write(token, `sgs_Token`);                      // 保存 token
-      $.notify(`成功`, `Token 获取成功`, token);        // 通知 token 获取成功
-      $.info(`Token: ${token}`);                        // 输出 token 到控制台
-    } else {
-      $.notify(`失败`, `未找到 token`, `请检查请求头`);  // 未找到 token 时通知
-    }
   }
 }
 
