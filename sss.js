@@ -28,7 +28,7 @@ if ($request) {
             let wechatMessage = {
                 "msgtype": "text",
                 "text": {
-                    "content": `成功获取 Token 和 X-XSRF-TOKEN：${message}`
+                    "content": `${message}`
                 }
             };
             
