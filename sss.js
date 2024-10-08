@@ -24,7 +24,7 @@ if ($request) {
             console.log(`Token值 & X-XSRF-TOKEN值\n${message}`);
 
             // 发送到企业微信消息
-            let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-webhook-key"; // 企业微信机器人 Webhook 地址
+            let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; // 企业微信机器人 Webhook 地址
             let wechatMessage = {
                 "msgtype": "text",
                 "text": {
