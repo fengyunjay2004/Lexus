@@ -39,8 +39,8 @@ function GetHeaders() {
    if (xsrfToken && token) {
      $.write(xsrfToken, `sgs_XSRFToken`);             // 保存 X-XSRF-TOKEN
      $.write(token, `sgs_Token`);                     // 保存 token
-     $.notify(`成功`, `X-XSRF-TOKEN 和 Token 获取成功`, `X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`);  // 合并通知
-     $.info(`X-XSRF-TOKEN: ${xsrfToken}, Token: ${token}`);  // 输出 X-XSRF-TOKEN 和 Token 到控制台
+     $.notify(`成功`, `X-XSRF-TOKEN 和 Token 获取成功`, `Token值 & X-XSRF-TOKEN值\n${token}&${xsrfToken}`);  // 合并通知   Token值 & X-XSRF-TOKEN值
+     $.info(`Token值 & X-XSRF-TOKEN值\n${token}&${xsrfToken}`);  // 输出 X-XSRF-TOKEN 和 Token 到控制台
    } else if (xsrfToken) {
      $.write(xsrfToken, `sgs_XSRFToken`);              // 保存 X-XSRF-TOKEN
      $.notify(`部分成功`, `仅获取到 X-XSRF-TOKEN`, `X-XSRF-TOKEN: ${xsrfToken}`);  // 通知仅获取到 X-XSRF-TOKEN
