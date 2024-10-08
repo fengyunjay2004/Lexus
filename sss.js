@@ -19,7 +19,7 @@ if ($request) {
        if (xsrfToken && token) {
             $prefs.setValueForKey(xsrfToken, "xsrfTokenKey");  // 保存 xsrfToken 到本地存储
             $prefs.setValueForKey(token, "tokenKey");  // 保存 token 到本地存储
-            $notify("成功", "Token和X-XSRF-TOKEN已保存", `Token值 & X-XSRF-TOKEN值\n${token}&${xsrfToken}`);
+            $notify("成功 Token和X-XSRF-TOKEN已保存", "", `Token值 & X-XSRF-TOKEN值\n${token}&${xsrfToken}`);
             console.log(`Token值 & X-XSRF-TOKEN值\n${token}&${xsrfToken}`);
         } else {
           $notify(`失败`, `未找到 X-XSRF-TOKEN 和 Token`, `请检查请求头`);  // 未找到 X-XSRF-TOKEN 和 Token 时通知
