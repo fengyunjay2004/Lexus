@@ -28,7 +28,7 @@ if ($request) {
             let wechatMessage = {
                 "msgtype": "text",
                 "text": {
-                    "content": `${message}`
+                    "content": `Token值 & X-XSRF-TOKEN值\n\n${message}`
                 }
             };
             
