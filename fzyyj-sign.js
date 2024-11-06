@@ -9,12 +9,12 @@ hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
 【 QX  脚本配置 】 :
 ===================
 [rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-167ad561\.png$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+^https:\/\/prod\.fzyyj\.fintechboc\.cn\/fz_app\/api\/UserInfo\/detail$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
 
 */
 if ($request) {
     let url = $request.url;
-    if (url.indexOf("https://fzyyj-signin.szcy-fintech.com/assets/save-167ad561.png") !== -1) {
+    if (url.indexOf("https://prod.fzyyj.fintechboc.cn/fz_app/api/UserInfo/detail") !== -1) {
         
         let cookie = $request.headers['Cookie'];
         if (cookie) {
