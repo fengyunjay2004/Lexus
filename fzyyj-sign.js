@@ -35,7 +35,7 @@ if ($request) {
                 console.log(`云游记\n以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${authorization}`);
 
                 // 发送到企业微信消息
-                let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; // 企业微信机器人 Webhook 地址
+                let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; 
                 let wechatMessage1 = {
                     "msgtype": "text",
                     "text": {
