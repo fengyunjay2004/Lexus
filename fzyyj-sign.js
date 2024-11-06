@@ -1,20 +1,16 @@
 /*
 签到页面，点分享海报即可
 ===================
-[MITM]
-hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
-
-
-===================
 【 QX  脚本配置 】 :
-===================
+[MITM]
+hostname = fzyyj-signin.szcy-fintech.com
 [rewrite_local]
-^https:\/\/prod\.fzyyj\.fintechboc\.cn\/fz_app\/api\/UserInfo\/detail$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
-
+^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/signin\/eventTrack\/data.* url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+===================
 */
 if ($request) {
     let url = $request.url;
-    if (url.indexOf("https://prod.fzyyj.fintechboc.cn/fz_app/api/UserInfo/detail") !== -1) {
+    if (url.indexOf("https://fzyyj-signin.szcy-fintech.com/fzyyj/game/signin/eventTrack/data") !== -1) {
         
         let cookie = $request.headers['Cookie'];
         if (cookie) {
