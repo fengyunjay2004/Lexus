@@ -21,15 +21,15 @@ if ($request) {
             $prefs.setValueForKey(xsrfToken, "xsrfTokenKey");  // 保存 xsrfToken 到本地存储
             $prefs.setValueForKey(token, "tokenKey");          // 保存 token 到本地存储
             let message = `${token}&${xsrfToken}`;
-            $notify("成功获取Token和X-XSRF-TOKEN", "", message);
+            $notify("shengongshe 成功获取Token和X-XSRF-TOKEN", "", message);
             console.log(`Token值 & X-XSRF-TOKEN值\n${message}`);
 
             // 发送到企业微信消息
-            let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; // 企业微信机器人 Webhook 地址
+            let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; 
             let wechatMessage1 = {
                 "msgtype": "text",
                 "text": {
-                    "content": `申工社 成功获取Token值&X-XSRF-TOKEN值`
+                    "content": `shengongshe 成功获取Token值&X-XSRF-TOKEN值`
                 }
             };
             
