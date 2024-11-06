@@ -5,12 +5,12 @@
 [MITM]
 hostname = fzyyj-signin.szcy-fintech.com
 [rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/signin\/eventTrack\/data.* url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/cancel-e9003a53\.png(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
 ===================
 */
 if ($request) {
     let url = $request.url;
-    if (url.indexOf("https://fzyyj-signin.szcy-fintech.com/fzyyj/game/signin/eventTrack/data") !== -1) {
+    if (url.indexOf("https://fzyyj-signin.szcy-fintech.com/assets/cancel-e9003a53.png") !== -1) {
         
         let cookie = $request.headers['Cookie'];
         if (cookie) {
