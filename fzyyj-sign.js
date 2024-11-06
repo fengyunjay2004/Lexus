@@ -31,8 +31,8 @@ if ($request) {
                 let message1 = `${cookie}`;
                 let message2 = `${authorization}`;
                 // 发送通知，显示提取的 authorization
-                $notify("福仔云游记成功获取CK和Authorization", "", `以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${authorization}`);
-                console.log(`福仔云游记\n以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${authorization}`);
+                $notify("云游记成功获取CK和Authorization", "", `以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${authorization}`);
+                console.log(`云游记\n以下是获取到的Cookie值\n${cookie}\n\n以下是获取到的Authorization值\n${authorization}`);
 
                 // 发送到企业微信消息
                 let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; // 企业微信机器人 Webhook 地址
