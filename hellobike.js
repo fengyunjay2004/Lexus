@@ -59,11 +59,11 @@ if ($request) {
             // 检查是否需要发送通知
             if (currentTime - lastSavedTime >= TEN_MINUTES || (cachedTokens.length === 1 && !lastSavedTime)) {
                 // 发送合并的消息
-                let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";  // 企业微信机器人 Webhook 地址
+                let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"; 
                 let wechatMessage = {
                     "msgtype": "text",
                     "text": {
-                        "content": `哈啰单车 成功获取Token值\n${cachedTokens.join("@")}`
+                        "content": `hellobike 成功获取Token值\n${cachedTokens.join("@")}`
                     }
                 };
 
@@ -101,11 +101,11 @@ if ($request) {
 
 // 函数用于发送当前Token缓存的消息
 function sendCurrentTokenCache(tokens) {
-    let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";  // 企业微信机器人 Webhook 地址
+    let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";  
     let wechatMessage = {
         "msgtype": "text",
         "text": {
-            "content": `哈啰单车当前Token缓存：\n\n${tokens.join("@")}`
+            "content": `hellobike当前Token缓存：\n\n${tokens.join("@")}`
         }
     };
 
