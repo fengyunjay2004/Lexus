@@ -5,7 +5,7 @@
 [MITM]
 hostname = fzyyj-signin.szcy-fintech.com
 [rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/cancel-e9003a53\.png(?:\?.*)?$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
+^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/cancel-e9003a53\.png$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
 ===================
 */
 if ($request) {
