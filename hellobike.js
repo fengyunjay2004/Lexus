@@ -51,7 +51,7 @@ if ($request) {
                 });
 
                 $prefs.setValueForKey(JSON.stringify(cachedTokens), "tokenList");
-                console.log(`新Token添加成功: ${newToken}`);
+                console.log(`Hellobike新Token添加成功: ${newToken}`);
             } else {
                 console.log("抓取到的 Token 已存在，跳过保存");
             }
@@ -73,7 +73,7 @@ function sendCurrentTokenCache(tokens) {
     let wechatMessage = {
         "msgtype": "text",
         "text": {
-            "content": `hellobike当前Token缓存：\n\n${tokens.map(item => `${item.token} (时间戳: ${item.timestamp})`).join("@")}`
+            "content": `Hellobike当前Token缓存：\n\n${tokens.map(item => `${item.token}`).join("@")}`
         }
     };
 
