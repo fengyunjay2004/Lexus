@@ -1,0 +1,6 @@
+[Proxy]
+无限流量香港 = trojan, vt-bana2-cn-11.ghpgwqswodgzv.com, 40021, password=a38c9e28-9960-4e31-9f18-ed2495a756aa, obfs=wss, obfs-host=vt-bana2-cn-11.ghpgwqswodgzv.com, obfs-uri=/dl_media, tls-verification=false, fast-open=false, udp-relay=false
+银河VPN (HK) = vmess, n1727438648.izwhvan.cn, 443, method=aes-128-gcm, password=5a5c78b9-acd4-4568-ade5-a54a5f6b8428, obfs=wss, obfs-host=n1727438648.izwhvan.cn, obfs-uri=/, tls-verification=false, fast-open=false, udp-relay=false, aead=true
+
+[Proxy Group]
+Proxy = select, 无限流量香港, 银河VPN (HK)
