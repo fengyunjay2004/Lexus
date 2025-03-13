@@ -94,8 +94,8 @@ $httpClient.get(
             }
             else {
                 body = {
-                    title: "实时油价信息",
-                    content: `${prices[0].name}  ${prices[0].value}\n${friendly_tips}`,
+                    //title: "实时油价信息",
+                    content: `${prices[0].name}     ${prices[0].value}\n${friendly_tips}`,
                     icon: "fuelpump.fill"
                 }
 
