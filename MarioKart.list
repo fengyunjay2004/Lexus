@@ -2,3 +2,11 @@
 DOMAIN,a6913b7b80402974409b47079c29d775.baas.nintendo.com
 DOMAIN,api.mariokarttour.com
 DOMAIN,download-cdn-mariokarttour.akamaized.net
+DOMAIN,public-content-cdn-mariokarttour.akamaized.net
+
+DOMAIN,pubsub.googleapis.com
+DOMAIN,ocsp2.apple.com
+DOMAIN,gateway.icloud.com.cn
+DOMAIN,client-api.itunes.apple.com
+DOMAIN,profile.gc.apple.com
+DOMAIN,stats.gc.apple.com
