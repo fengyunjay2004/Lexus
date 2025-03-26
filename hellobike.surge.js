@@ -1,3 +1,4 @@
+/*
 #!name=Hellobike Token Capture
 #!desc=捕获并缓存 Hellobike Token 并通过企业微信通知
 
@@ -6,6 +7,7 @@ http-request ^https:\/\/api\.hellobike\.com\/api\?common\.welfare\.signAndRecomm
 
 [MITM]
 hostname = api.hellobike.com
+*/
 const TEN_MINUTES = 10 * 60 * 1000;
 const WECHAT_WEBHOOK = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";
 
