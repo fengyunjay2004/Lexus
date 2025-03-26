@@ -9,21 +9,13 @@ http-request ^https:\/\/api\.hellobike\.com\/api\?common\.welfare\.signAndRecomm
 hostname = api.hellobike.com
 */
 const TEN_MINUTES = 10 * 60 * 1000;
-const WECHAT_WEBHOOK = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";
 
 function main() {
-    const request = $request;
-    if (!request) {
-        $done({});
-        return;
-    }
-
-    // 处理请求体和 URL
-    const body = request.body;
-    const url = request.url;
-
-    if (url.includes("common.welfare.signAndRecommend")) {
-        processToken(body);
+    console.log(`[Debug] 检测到请求 URL: ${$request.url}`);
+    
+    if ($request.url.includes("common.welfare.signAndRecommend")) {
+        console.log("[Debug] 进入 Token 处理流程");
+        processToken($request.body);
     }
     
     $done({});
@@ -31,66 +23,42 @@ function main() {
 
 function processToken(body) {
     try {
-        const tokenMatch = body.match(/"token":"([^"]+)"/);
+        console.log(`[Debug] 原始请求体: ${body.substring(0, 200)}...`); // 截取部分内容避免日志过长
+        
+        const tokenMatch = body.match(/"token"\s*:\s*"([^"]+)"/);
         if (!tokenMatch) {
-            $notification.post("失败", "未找到 Token", "请检查请求体");
+            $notification.post("错误", "未匹配到 Token", "请检查请求体格式");
+            console.error("[Error] 正则匹配失败");
             return;
         }
-
-        const currentTime = new Date().getTime();
+        
         const newToken = tokenMatch[1];
+        console.log(`[Debug] 提取到 Token: ${newToken}`);
         
-        // 从持久化存储获取 token 列表
+        const currentTime = Date.now();
         let cachedTokens = JSON.parse($persistentStore.read("tokenList") || "[]");
-        const lastSavedTime = $persistentStore.read("tokenTime");
+        console.log(`[Debug] 当前缓存 Token 数量: ${cachedTokens.length}`);
         
-        // 清理过期 token
+        // 清理过期 Token
         cachedTokens = cachedTokens.filter(item => currentTime - item.timestamp < TEN_MINUTES);
+        console.log(`[Debug] 清理后剩余 Token 数量: ${cachedTokens.length}`);
         
-        // 检查 token 是否已存在
+        // 检查是否已存在
         const exists = cachedTokens.some(item => item.token === newToken);
         if (!exists) {
-            cachedTokens.push({
-                token: newToken,
-                timestamp: currentTime
-            });
-            
+            cachedTokens.push({ token: newToken, timestamp: currentTime });
             $persistentStore.write(JSON.stringify(cachedTokens), "tokenList");
             $persistentStore.write(currentTime.toString(), "tokenTime");
-            console.log(`Hellobike新Token添加成功: ${newToken}`);
+            console.log(`[Success] Token 已保存: ${newToken}`);
+            $notification.post("新 Token 添加", newToken, "");
         } else {
-            console.log("抓取到的 Token 已存在，跳过保存");
+            console.log("[Info] Token 已存在，无需重复保存");
         }
         
-        // 发送通知
-        sendWechatNotification(cachedTokens);
     } catch (error) {
-        console.log(`处理 Token 时出错: ${error}`);
-        $notification.post("脚本错误", error.toString(), "");
+        console.error(`[Error] 处理异常: ${error.stack}`);
+        $notification.post("脚本崩溃", error.message, "");
     }
-}
-
-function sendWechatNotification(tokens) {
-    const message = {
-        "msgtype": "text",
-        "text": {
-            "content": `Hellobike当前Token缓存：\n\n${tokens.map(item => `${item.token}`).join("@")}`
-        }
-    };
-
-    $httpClient.post({
-        url: WECHAT_WEBHOOK,
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(message)
-    }, (error, response, data) => {
-        if (error) {
-            console.log(`通知发送失败: ${error}`);
-        } else {
-            console.log(`通知发送成功: ${response.status}`);
-        }
-    });
 }
 
 main();
