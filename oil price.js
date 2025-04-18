@@ -23,56 +23,65 @@ const $ = new Env('浙江油价监控');
     
     $.log(`网站响应状态: ${response.response.statusCode}`);
     
-    // 解析网页内容
+    // 获取网页内容
     const html = response.body;
     $.log(`获取到网页内容，长度: ${html.length} 字符`);
     
-    // 输出网页内容的一部分用于调试
-    $.log(`网页内容预览(前300字符): ${html.substring(0, 300)}...`);
+    // 直接查找关键词
+    const keyword = "油价4月17日24时";
+    $.log(`开始查找关键词: "${keyword}"`);
     
-    // 保存原始HTML到文件(如果Surge支持)
-    try {
-      $persistentStore.write(html, "debug_html");
-      $.log("已保存原始HTML到持久化存储");
-    } catch (e) {
-      $.log(`保存HTML失败: ${e.message}`);
-    }
-    
-    // 尝试多种选择器
-    $.log("开始尝试提取内容...");
-    let youjiaCont = getElementBySelector(html, '#youjiaCont > div:nth-child(2)');
-    
-    if (!youjiaCont) {
-      $.log("第一个选择器失败，尝试备选选择器...");
-      youjiaCont = getElementBySelector(html, '#youjiaCont div');
-    }
-    
-    if (!youjiaCont) {
-      $.log("备选选择器也失败，尝试直接搜索关键内容...");
-      // 尝试直接通过关键词找到相关内容
-      const keywordMatch = html.match(/\d{1,2}月\d{1,2}日[^<]*汽油/);
-      if (keywordMatch) {
-        youjiaCont = keywordMatch[0];
-        $.log(`通过关键词匹配找到内容: ${youjiaCont}`);
+    if (html.includes(keyword)) {
+      $.log(`找到关键词: "${keyword}"`);
+      
+      // 提取包含关键词的整段内容
+      const startIndex = Math.max(0, html.indexOf(keyword) - 50);
+      const endIndex = Math.min(html.length, html.indexOf(keyword) + 200);
+      const context = html.substring(startIndex, endIndex);
+      
+      $.log(`关键词上下文内容: ${context}`);
+      
+      // 尝试提取完整的内容块
+      let fullContent = "";
+      
+      // 方法1: 尝试找到包含关键词的完整DIV
+      const divPattern = new RegExp(`<div[^>]*>[\\s\\S]*?${keyword}[\\s\\S]*?<\\/div>`, 'i');
+      const divMatch = html.match(divPattern);
+      
+      if (divMatch) {
+        $.log("找到包含关键词的DIV元素");
+        const rawContent = divMatch[0];
+        // 移除HTML标签
+        fullContent = rawContent.replace(/<[^>]+>/g, '').trim();
+      } else {
+        $.log("未找到包含关键词的完整DIV，尝试直接提取内容");
+        
+        // 方法2: 尝试直接提取包含关键词的段落
+        const paragraphPattern = new RegExp(`${keyword}[^<]*`, 'i');
+        const paragraphMatch = html.match(paragraphPattern);
+        
+        if (paragraphMatch) {
+          $.log("直接找到关键词所在段落");
+          fullContent = paragraphMatch[0];
+        } else {
+          $.log("无法准确提取内容，返回上下文内容");
+          fullContent = context.replace(/<[^>]+>/g, '').trim();
+        }
       }
-    }
-    
-    if (youjiaCont) {
-      $.log(`成功提取内容: ${youjiaCont}`);
       
-      // 提取内容文本
-      const contentText = youjiaCont.replace(/<[^>]+>/g, '').trim();
-      $.log(`清理后的内容文本: ${contentText}`);
+      // 进一步清理内容
+      fullContent = fullContent.replace(/\s+/g, ' ').trim();
+      $.log(`提取的完整内容: ${fullContent}`);
       
-      // 使用正则表达式提取日期（例如 "4月17日"）
+      // 提取日期信息
       const datePattern = /(\d{1,2}月\d{1,2}日)/;
-      const dateMatch = contentText.match(datePattern);
+      const dateMatch = fullContent.match(datePattern);
       
       if (dateMatch) {
         const extractedDateStr = dateMatch[1];
         $.log(`提取到的日期: ${extractedDateStr}`);
         
-        // 获取今天日期并格式化为 "4月18日"（去除前导零）
+        // 获取今天日期并格式化
         const today = new Date();
         const todayStr = formatDate(today);
         
@@ -90,47 +99,77 @@ const $ = new Env('浙江油价监控');
         // 判断提取的日期是否是昨天、今天或明天
         let message = null;
         if (extractedDateStr === todayStr) {
-          message = `今日浙江油价消息: ${contentText}`;
-          $.log(`今天的消息: ${message}`);
+          message = `今日浙江油价消息: ${fullContent}`;
         } else if (extractedDateStr === yesterdayStr) {
-          message = `昨日浙江油价消息: ${contentText}`;
-          $.log(`昨天的消息: ${message}`);
+          message = `昨日浙江油价消息: ${fullContent}`;
         } else if (extractedDateStr === tomorrowStr) {
-          message = `明日浙江油价消息: ${contentText}`;
-          $.log(`明天的消息: ${message}`);
+          message = `明日浙江油价消息: ${fullContent}`;
         } else {
-          $.log(`提取的日期(${extractedDateStr})与今天相差超过一天，不发送通知。`);
+          message = `浙江油价消息(${extractedDateStr}): ${fullContent}`;
         }
         
-        // 如果有消息，发送Surge通知
-        if (message) {
-          $.notify("浙江油价监控", "", message);
-        }
+        $.log(`准备发送通知: ${message}`);
+        $.notify("浙江油价监控", "", message);
       } else {
-        $.log(`在内容中未找到符合 ${datePattern} 格式的日期`);
-        // 输出内容的每个字符及其编码，帮助检查格式问题
-        $.log("内容字符分析:");
-        for (let i = 0; i < contentText.length && i < 50; i++) {
-          const char = contentText[i];
-          const code = char.charCodeAt(0);
-          $.log(`位置 ${i}: "${char}" (Unicode: ${code})`);
-        }
-        
-        const errorMsg = "未找到日期信息！内容可能格式有变更";
-        $.notify("浙江油价监控", "错误", errorMsg);
+        $.log("在提取的内容中未找到日期信息，直接发送");
+        const message = `浙江油价消息: ${fullContent}`;
+        $.notify("浙江油价监控", "", message);
       }
     } else {
-      $.log("分析HTML内容结构:");
-      // 尝试找出页面的主要区块
-      const mainBlocks = html.match(/<div[^>]*class="[^"]*main[^"]*"[^>]*>([\s\S]*?)<\/div>/gi);
-      if (mainBlocks) {
-        $.log(`找到 ${mainBlocks.length} 个可能的主内容块`);
-      } else {
-        $.log("未找到主内容块");
-      }
+      // 如果找不到精确关键词，尝试更宽松的搜索
+      $.log(`未找到精确关键词"${keyword}"，尝试更宽松的搜索`);
       
-      const errorMsg = "没有找到匹配的内容！网站结构可能已变更";
-      $.notify("浙江油价监控", "错误", errorMsg);
+      // 尝试匹配"油价"和"24时"
+      const loosePattern = /油价\d{1,2}月\d{1,2}日.*?24时/;
+      const looseMatch = html.match(loosePattern);
+      
+      if (looseMatch) {
+        $.log(`找到相似内容: ${looseMatch[0]}`);
+        
+        // 提取包含相似内容的整段
+        const startIndex = Math.max(0, html.indexOf(looseMatch[0]) - 20);
+        const endIndex = Math.min(html.length, html.indexOf(looseMatch[0]) + 200);
+        const context = html.substring(startIndex, endIndex);
+        
+        // 清理内容
+        const cleanContent = context.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+        $.log(`提取的相似内容: ${cleanContent}`);
+        
+        // 发送通知
+        $.notify("浙江油价监控", "找到相似内容", cleanContent);
+      } else {
+        // 最后尝试，只匹配日期和油价
+        $.log("尝试匹配日期和油价");
+        const dateOilPattern = /\d{1,2}月\d{1,2}日[^<]*油价/;
+        const dateOilMatch = html.match(dateOilPattern);
+        
+        if (dateOilMatch) {
+          $.log(`找到日期和油价相关内容: ${dateOilMatch[0]}`);
+          
+          // 提取上下文
+          const startIndex = Math.max(0, html.indexOf(dateOilMatch[0]) - 20);
+          const endIndex = Math.min(html.length, html.indexOf(dateOilMatch[0]) + 200);
+          const context = html.substring(startIndex, endIndex);
+          
+          // 清理内容
+          const cleanContent = context.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+          
+          // 发送通知
+          $.notify("浙江油价监控", "找到油价相关内容", cleanContent);
+        } else {
+          $.log("在页面中未找到任何油价相关信息");
+          
+          // 分析网页整体结构
+          const bodyContent = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+          if (bodyContent) {
+            $.log("网页正文内容摘要:");
+            const bodyText = bodyContent[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+            $.log(bodyText.substring(0, 300) + "...");
+          }
+          
+          $.notify("浙江油价监控", "错误", "未找到任何油价相关信息，网站可能已更改");
+        }
+      }
     }
   } catch (e) {
     $.log(`执行过程中发生错误: ${e.message}`);
@@ -147,51 +186,6 @@ function formatDate(date) {
   let month = (date.getMonth() + 1).toString();
   let day = date.getDate().toString();
   return `${month}月${day}日`;
-}
-
-// 改进的选择器解析函数，增加更多调试信息
-function getElementBySelector(html, selector) {
-  $.log(`尝试使用选择器: ${selector}`);
-  
-  // 分解选择器
-  const parts = selector.split('>');
-  const firstPart = parts[0].trim();
-  
-  // 检查是否为ID选择器
-  if (firstPart.startsWith('#')) {
-    const idName = firstPart.substring(1);
-    $.log(`查找ID为 ${idName} 的元素`);
-    
-    const idRegex = new RegExp(`<[^>]*id=["']${idName}["'][^>]*>([\\s\\S]*?)<\\/div>`, 'i');
-    const match = html.match(idRegex);
-    
-    if (match) {
-      $.log(`找到ID为 ${idName} 的元素`);
-      
-      if (parts.length > 1) {
-        $.log(`尝试在其中查找子元素: ${parts[1].trim()}`);
-        // 这里简化处理，实际上需要更复杂的DOM解析
-        const childRegex = /<div[\s\S]*?>([\s\S]*?)<\/div>/i;
-        const childMatch = match[1].match(childRegex);
-        
-        if (childMatch) {
-          $.log("找到匹配的子元素");
-          return childMatch[1];
-        } else {
-          $.log("未找到匹配的子元素");
-          return null;
-        }
-      } else {
-        return match[1];
-      }
-    } else {
-      $.log(`未找到ID为 ${idName} 的元素`);
-      return null;
-    }
-  } else {
-    $.log("不支持的选择器类型，仅支持简单的ID和子元素选择");
-    return null;
-  }
 }
 
 // Surge 环境模拟
