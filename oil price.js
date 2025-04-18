@@ -27,19 +27,15 @@ const $ = new Env('浙江油价监控');
     const html = response.body;
     $.log(`获取到网页内容，长度: ${html.length} 字符`);
     
-    // 定义关键词：油价X月X日24时
-    const keywordPattern = /油价(\d{1,2})月(\d{1,2})日24时[^<]*/g;
+    // 定义正则表达式：从油价开始，到句号结束
+    const keywordPattern = /油价(\d{1,2})月(\d{1,2})日24时[^。]*。/g;
     let match;
     
     // 查找所有符合“油价X月X日24时”格式的内容
     const results = [];
     while ((match = keywordPattern.exec(html)) !== null) {
-      const contextStart = Math.max(0, match.index - 50);
-      const contextEnd = Math.min(html.length, match.index + 200);
-      const context = html.substring(contextStart, contextEnd);
-      
-      // 清理HTML标签
-      const cleanContext = context.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      // 清理HTML标签并获取匹配内容
+      const cleanContext = match[0].replace(/\s+/g, ' ').trim();
       
       // 存储符合条件的内容
       results.push(cleanContext);
@@ -65,13 +61,6 @@ const $ = new Env('浙江油价监控');
     $.done();
   }
 })();
-
-// 工具函数：格式化日期为 "4月18日" 格式（去除前导零）
-function formatDate(date) {
-  let month = (date.getMonth() + 1).toString();
-  let day = date.getDate().toString();
-  return `${month}月${day}日`;
-}
 
 // Surge 环境模拟
 function Env(name) {
