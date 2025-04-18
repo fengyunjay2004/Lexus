@@ -1,109 +1,124 @@
-if ($request) {
-    let body = $request.body;  // 获取请求体
-    let url = $request.url;
+/*
+上海油价监控 surge专用
+*/
+const $ = new Env('上海油价监控');
 
-    // 定义10分钟的毫秒数
-    const TEN_MINUTES = 10 * 60 * 1000;
-
-    // 获取当前时间
-    let currentTime = new Date().getTime();
-
-    // 从本地缓存中获取油价列表和对应的时间戳
-    let cachedPrices = JSON.parse($prefs.valueForKey("priceList") || "[]");  // 获取油价列表，默认空数组
-    let lastSavedTime = $prefs.valueForKey("priceTime");
-
-    // 清理过期的油价数据
-    cachedPrices = cachedPrices.filter(item => currentTime - item.timestamp < TEN_MINUTES);
-
-    // 更新缓存
-    $prefs.setValueForKey(JSON.stringify(cachedPrices), "priceList");
-    $prefs.setValueForKey(currentTime, "priceTime");
-
-    // 检查是否为获取油价的请求
-    if (url.indexOf("http://www.qiyoujiage.com/shanghai.shtml") !== -1) {
-        // 提取网页中的油价信息
-        let priceMatch = body.match(/<div class="time">([^<]+)<\/div>\s*<span class="price">([^<]+)<\/span>/g);
-
-        if (priceMatch) {
-            let prices = [];
-            priceMatch.forEach(match => {
-                let dateMatch = match.match(/<div class="time">([^<]+)<\/div>/);
-                let priceMatch = match.match(/<span class="price">([^<]+)<\/span>/);
-                
-                if (dateMatch && priceMatch) {
-                    let date = dateMatch[1].trim();
-                    let price = priceMatch[1].trim();
-                    prices.push({ date, price });
-                }
-            });
-
-            // 获取今天、昨天和明天的日期
-            const today = new Date();
-            const yesterday = new Date(today);
-            const tomorrow = new Date(today);
-
-            yesterday.setDate(today.getDate() - 1);
-            tomorrow.setDate(today.getDate() + 1);
-
-            const dateFormat = (date) => {
-                const year = date.getFullYear();
-                const month = date.getMonth() + 1;
-                const day = date.getDate();
-                return `${year}-${month}-${day}`;
-            };
-
-            const todayStr = dateFormat(today);
-            const yesterdayStr = dateFormat(yesterday);
-            const tomorrowStr = dateFormat(tomorrow);
-
-            // 筛选出今天、昨天、明天的油价
-            let message = "油价通知：\n";
-            prices.forEach(item => {
-                if (item.date === todayStr || item.date === yesterdayStr || item.date === tomorrowStr) {
-                    message += `${item.date}：${item.price}\n`;
-                }
-            });
-
-            // 发送通知
-            if (message !== "油价通知：\n") {
-                sendOilPriceNotification(message);
-            } else {
-                $notify("油价通知", "", "没有找到相关日期的油价");
-                $done();
-            }
+// 主函数
+!(async () => {
+  try {
+    // 发送 GET 请求
+    const headers = {
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+      'Accept-Language': 'zh-CN,zh;q=0.9',
+      'Proxy-Connection': 'keep-alive',
+      'Referer': 'http://www.qiyoujiage.com/shanghai.shtml',
+      'Upgrade-Insecure-Requests': '1',
+      'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'
+    };
+    
+    const response = await $.http.get({
+      url: 'http://www.qiyoujiage.com/shanghai.shtml',
+      headers: headers
+    });
+    
+    // 解析网页内容
+    const html = response.body;
+    const youjiaCont = getElementBySelector(html, '#youjiaCont > div:nth-child(2)');
+    
+    if (youjiaCont) {
+      // 提取内容文本
+      const contentText = youjiaCont.replace(/<[^>]+>/g, '').trim();
+      
+      // 使用正则表达式提取日期（例如 "4月17日"）
+      const datePattern = /(\d{1,2}月\d{1,2}日)/;
+      const dateMatch = contentText.match(datePattern);
+      
+      if (dateMatch) {
+        const extractedDateStr = dateMatch[1];
+        
+        // 获取今天日期并格式化为 "4月18日"（去除前导零）
+        const today = new Date();
+        const todayStr = formatDate(today);
+        
+        // 计算昨天和明天的日期
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = formatDate(yesterday);
+        
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowStr = formatDate(tomorrow);
+        
+        // 判断提取的日期是否是昨天、今天或明天
+        let message = null;
+        if (extractedDateStr === todayStr) {
+          message = `今日上海油价消息: ${contentText}`;
+          $.log(`今天的消息: ${message}`);
+        } else if (extractedDateStr === yesterdayStr) {
+          message = `昨日上海油价消息: ${contentText}`;
+          $.log(`昨天的消息: ${message}`);
+        } else if (extractedDateStr === tomorrowStr) {
+          message = `明日上海油价消息: ${contentText}`;
+          $.log(`明天的消息: ${message}`);
         } else {
-            $notify("失败", "未找到油价信息", "请检查请求体");
-            $done();  // 未找到油价时调用 $done()
+          $.log("提取的日期与今天相差超过一天，不发送通知。");
         }
+        
+        // 如果有消息，发送Surge通知
+        if (message) {
+          $.notify("上海油价监控", "", message);
+        }
+      } else {
+        const errorMsg = "未找到日期信息！";
+        $.log(errorMsg);
+        $.notify("上海油价监控", "错误", errorMsg);
+      }
     } else {
-        $done();  // URL 不匹配时调用 $done()
+      const errorMsg = "没有找到匹配的内容！";
+      $.log(errorMsg);
+      $.notify("上海油价监控", "错误", errorMsg);
     }
+  } catch (e) {
+    $.log(`发生错误: ${e.message}`);
+    $.notify("上海油价监控", "错误", `运行时出错: ${e.message}`);
+  } finally {
+    $.done();
+  }
+})();
+
+// 工具函数：格式化日期为 "4月18日" 格式（去除前导零）
+function formatDate(date) {
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
+  return `${month}月${day}日`;
 }
 
-// 函数用于发送油价通知消息
-function sendOilPriceNotification(message) {
-    let wechatWebhookUrl = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8";
-    let wechatMessage = {
-        "msgtype": "text",
-        "text": {
-            "content": message
-        }
-    };
+// 工具函数：简单的选择器解析函数
+function getElementBySelector(html, selector) {
+  // 这里只是一个简单实现，用于提取 #youjiaCont > div:nth-child(2) 的内容
+  // 实际使用中可能需要更复杂的解析
+  const regex = /<div[^>]*id=["']youjiaCont["'][^>]*>[\s\S]*?<div[\s\S]*?>([\s\S]*?)<\/div>/i;
+  const match = html.match(regex);
+  return match ? match[1] : null;
+}
 
-    let options = {
-        url: wechatWebhookUrl,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(wechatMessage)
-    };
-
-    $task.fetch(options).then(response => {
-        console.log(`油价通知发送成功: ${response.body}`);
-        $done();  // 完成
-    }, reason => {
-        console.log(`油价通知发送失败: ${reason.error}`);
-        $done();  // 在消息发送失败后调用 $done()
-    });
+// Surge 环境模拟
+function Env(name) {
+  this.name = name;
+  this.log = (msg) => console.log(`[${name}] ${msg}`);
+  this.notify = (title, subtitle, message) => {
+    $notification.post(title, subtitle, message);
+    this.log(`通知: ${title} ${subtitle} ${message}`);
+  };
+  this.http = {
+    get: async (options) => {
+      return new Promise((resolve, reject) => {
+        $httpClient.get(options, (error, response, body) => {
+          if (error) reject(error);
+          else resolve({response, body});
+        });
+      });
+    }
+  };
+  this.done = () => $done({});
 }
