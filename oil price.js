@@ -44,12 +44,50 @@ const $ = new Env('浙江油价监控');
       $.log(`找到${results.length}条符合条件的内容`);
       
       results.forEach(contentText => {
-        // 清除 HTML 标签和代码，只保留纯文本
-        const cleanContent = contentText.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+        // 使用正则表达式提取日期（例如 "4月17日"）
+        const datePattern = /(\d{1,2})月(\d{1,2})日/;
+        const dateMatch = contentText.match(datePattern);
         
-        // 发送通知
-        $.notify("浙江油价监控", "", cleanContent);
-        $.log(`清理后的内容: ${cleanContent}`);
+        if (dateMatch) {
+          const extractedDateStr = dateMatch[0];
+          
+          // 获取今天日期并格式化为 "4月18日"（去除前导零）
+          const today = new Date();
+          const todayStr = formatDate(today);
+          
+          // 计算昨天和明天的日期
+          const yesterday = new Date();
+          yesterday.setDate(yesterday.getDate() - 1);
+          const yesterdayStr = formatDate(yesterday);
+          
+          const tomorrow = new Date();
+          tomorrow.setDate(tomorrow.getDate() + 1);
+          const tomorrowStr = formatDate(tomorrow);
+          
+          // 判断提取的日期是否是昨天、今天或明天
+          let message = null;
+          if (extractedDateStr === todayStr) {
+            message = `今日浙江油价消息: ${contentText}`;
+            $.log(`今天的消息: ${message}`);
+          } else if (extractedDateStr === yesterdayStr) {
+            message = `昨日浙江油价消息: ${contentText}`;
+            $.log(`昨天的消息: ${message}`);
+          } else if (extractedDateStr === tomorrowStr) {
+            message = `明日浙江油价消息: ${contentText}`;
+            $.log(`明天的消息: ${message}`);
+          } else {
+            $.log("提取的日期与今天相差超过一天，不发送通知。");
+            return; // 如果日期不在今天、昨天或明天，就跳过
+          }
+          
+          // 清理内容：去除HTML标签和多余空格
+          const cleanContent = message.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+          
+          // 发送通知
+          $.notify("浙江油价监控", "", cleanContent);
+        } else {
+          $.log("在提取的内容中未找到日期信息，跳过处理");
+        }
       });
     } else {
       $.log("未找到符合条件的油价信息");
@@ -65,6 +103,13 @@ const $ = new Env('浙江油价监控');
     $.done();
   }
 })();
+
+// 格式化日期为 "4月18日" 格式（去除前导零）
+function formatDate(date) {
+  let month = (date.getMonth() + 1).toString();
+  let day = date.getDate().toString();
+  return `${month}月${day}日`;
+}
 
 // Surge 环境模拟
 function Env(name) {
