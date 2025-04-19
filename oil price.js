@@ -3,21 +3,21 @@ const $ = new Env('浙江油价监控');
 // 主函数
 !(async () => {
   try {
-    $.log(`开始执行浙江油价监控脚本 - ${new Date().toLocaleString()}`);
+    $.log(`开始执行上海油价监控脚本 - ${new Date().toLocaleString()}`);
     
     // 发送 GET 请求
     const headers = {
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
       'Accept-Language': 'zh-CN,zh;q=0.9',
       'Proxy-Connection': 'keep-alive',
-      'Referer': 'http://www.qiyoujiage.com/zhejiang.shtml',
+      'Referer': 'http://www.qiyoujiage.com/shanghai.shtml',
       'Upgrade-Insecure-Requests': '1',
       'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'
     };
     
     $.log("正在请求油价网站...");
     const response = await $.http.get({
-      url: 'http://www.qiyoujiage.com/zhejiang.shtml',
+      url: 'http://www.qiyoujiage.com/shanghai.shtml',
       headers: headers
     });
     
@@ -25,7 +25,7 @@ const $ = new Env('浙江油价监控');
     
     // 获取网页内容
     const html = response.body;
-    $.log(`获取到网页内容，长度: ${html.length} 字符`);
+    //$.log(`获取到网页内容，长度: ${html.length} 字符`);
     
     // 定义正则表达式：从油价开始，到24时结束
     const keywordPattern = /油价(\d{1,2})月(\d{1,2})日24时[^。]*。/g;
@@ -67,13 +67,13 @@ const $ = new Env('浙江油价监控');
           // 判断提取的日期是否是昨天、今天或明天
           let message = null;
           if (extractedDateStr === todayStr) {
-            message = `今日浙江油价消息: ${contentText}`;
+            message = `今日上海⛽️: ${contentText}`;
             $.log(`今天的消息: ${message}`);
           } else if (extractedDateStr === yesterdayStr) {
-            message = `昨日浙江油价消息: ${contentText}`;
+            message = `昨日上海⛽️: ${contentText}`;
             $.log(`昨天的消息: ${message}`);
           } else if (extractedDateStr === tomorrowStr) {
-            message = `明日浙江油价消息: ${contentText}`;
+            message = `明日上海⛽️: ${contentText}`;
             $.log(`明天的消息: ${message}`);
           } else {
             $.log("提取的日期与今天相差超过一天，不发送通知。");
