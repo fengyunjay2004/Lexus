@@ -1,0 +1,96 @@
+{
+  "categories": [
+    {
+      "name": "央视",
+      "channels": [
+        {"name": "CCTV1", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV1"},
+        {"name": "CCTV2", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV2"},
+        {"name": "CCTV3", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV3"},
+        {"name": "CCTV4", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV4"},
+        {"name": "CCTV5", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV5"},
+        {"name": "CCTV5+", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV5p"},
+        {"name": "CCTV6", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV6"},
+        {"name": "CCTV7", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV7"},
+        {"name": "CCTV8", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV8"},
+        {"name": "CCTV9", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV9"},
+        {"name": "CCTV10", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV10"},
+        {"name": "CCTV11", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV11"},
+        {"name": "CCTV12", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV12"},
+        {"name": "CCTV13", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV13"},
+        {"name": "CCTV14", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV14"},
+        {"name": "CCTV15", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV15"},
+        {"name": "CCTV16", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV16"},
+        {"name": "CCTV17", "url": "http://itv.iptv1688.top:2016/itv.php?id=CCTV17"}
+      ]
+    },
+    {
+      "name": "电影",
+      "channels": [
+        {"name": "CHC家庭影院", "url": "http://107.174.52.32/itv.php?id=CHC家庭影院"},
+        {"name": "CHC影迷电影", "url": "http://107.174.52.32/itv.php?id=CHC影迷电影"},
+        {"name": "CHC动作电影", "url": "http://107.174.52.32/itv.php?id=CHC动作电影"}
+      ]
+    },
+    {
+      "name": "卫视",
+      "channels": [
+        {"name": "湖南卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=湖南卫视"},
+        {"name": "浙江卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=浙江卫视"},
+        {"name": "江苏卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=江苏卫视"},
+        {"name": "广东卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=广东卫视"},
+        {"name": "东方卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=东方卫视"},
+        {"name": "东南卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=东南卫视"},
+        {"name": "辽宁卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=辽宁卫视"},
+        {"name": "深圳卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=深圳卫视"},
+        {"name": "天津卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=天津卫视"},
+        {"name": "安徽卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=安徽卫视"},
+        {"name": "河北卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=河北卫视"},
+        {"name": "重庆卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=重庆卫视"},
+        {"name": "吉林卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=吉林卫视"},
+        {"name": "黑龙江卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=黑龙江卫视"},
+        {"name": "山东卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=山东卫视"},
+        {"name": "海南卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=海南卫视"},
+        {"name": "贵州卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=贵州卫视"},
+        {"name": "湖北卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=湖北卫视"},
+        {"name": "河南卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=河南卫视"},
+        {"name": "广西卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=广西卫视"},
+        {"name": "江西卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=江西卫视"},
+        {"name": "陕西卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=陕西卫视"},
+        {"name": "宁夏卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=宁夏卫视"},
+        {"name": "内蒙古卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=内蒙古卫视"},
+        {"name": "西藏卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=西藏卫视"},
+        {"name": "四川卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=四川卫视"},
+        {"name": "山西卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=山西卫视"},
+        {"name": "甘肃卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=甘肃卫视"},
+        {"name": "新疆卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=新疆卫视"},
+        {"name": "青海卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=青海卫视"},
+        {"name": "延边卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=延边卫视"},
+        {"name": "兵团卫视", "url": "http://itv.iptv1688.top:2016/itv.php?id=兵团卫视"}
+      ]
+    },
+    {
+      "name": "教育",
+      "channels": [
+        {"name": "山东教育", "url": "http://itv.iptv1688.top:2016/itv.php?id=山东教育"},
+        {"name": "CETV1", "url": "http://itv.iptv1688.top:2016/itv.php?id=CETV1"},
+        {"name": "CETV2", "url": "http://itv.iptv1688.top:2016/itv.php?id=CETV2"},
+        {"name": "CETV4", "url": "http://itv.iptv1688.top:2016/itv.php?id=CETV4"}
+      ]
+    },
+    {
+      "name": "科教",
+      "channels": [
+        {"name": "北京科教纪实", "url": "http://itv.iptv1688.top:2016/itv.php?id=北京科教纪实"}
+      ]
+    },
+    {
+      "name": "少儿",
+      "channels": [
+        {"name": "北京卡酷少儿", "url": "http://itv.iptv1688.top:2016/itv.php?id=北京卡酷少儿"},
+        {"name": "金鹰卡通", "url": "http://itv.iptv1688.top:2016/itv.php?id=金鹰卡通"},
+        {"name": "哈哈炫动", "url": "http://itv.iptv1688.top:2016/itv.php?id=哈哈炫动"},
+        {"name": "优漫卡通", "url": "http://itv.iptv1688.top:2016/itv.php?id=优漫卡通"}
+      ]
+    }
+  ]
+}
