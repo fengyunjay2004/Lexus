@@ -1,4 +1,4 @@
-const $ = new Env('浙江油价监控');
+const $ = new Env('上海油价监控');
 
 // 主函数
 !(async () => {
