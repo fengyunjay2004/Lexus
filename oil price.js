@@ -84,20 +84,20 @@ const $ = new Env('浙江油价监控');
           const cleanContent = message.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
           
           // 发送通知
-          $.notify("浙江油价监控", "", cleanContent);
+          $.notify("上海油价监控", "", cleanContent);
         } else {
           $.log("在提取的内容中未找到日期信息，跳过处理");
         }
       });
     } else {
       $.log("未找到符合条件的油价信息");
-      $.notify("浙江油价监控", "错误", "未找到符合条件的油价信息，网站可能已更改");
+      $.notify("上海油价监控", "错误", "未找到符合条件的油价信息，网站可能已更改");
     }
     
   } catch (e) {
     $.log(`执行过程中发生错误: ${e.message}`);
     $.log(`错误堆栈: ${e.stack}`);
-    $.notify("浙江油价监控", "错误", `运行时出错: ${e.message}`);
+    $.notify("上海油价监控", "错误", `运行时出错: ${e.message}`);
   } finally {
     $.log("脚本执行完成");
     $.done();
