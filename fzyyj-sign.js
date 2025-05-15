@@ -1,15 +1,12 @@
 /*
-签到页面，点分享海报即可
-===================
+#!name=福仔云游获取CK
+#!desc=福仔云游获取CK
+
+[Script]
+fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/.*$, script-path=http://script.hub/convert/_start_/https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js/_end_/fzyyj-sign.js?type=qx-script&target=surge-script, timeout=60
+
 [MITM]
-hostname = fzyyj-signin.szcy-fintech.com,prod.fzyyj.fintechboc.cn
-===================
-【Surge配置】 :
-
-===================
-[rewrite_local]
-^https:\/\/fzyyj-signin\.szcy-fintech\.com\/assets\/save-167ad561\.png$ url script-request-header https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyj-sign.js
-
+hostname = %APPEND% fzyyj-signin.szcy-fintech.com
 */
 
 // 自定义环境类，用于日志记录和通知
