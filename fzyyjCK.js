@@ -1,3 +1,4 @@
+/*
 #!name=福仔云游获取CK (Surge专用版)
 #!desc=自动捕获游戏Cookie并通知
 
@@ -6,7 +7,7 @@ fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.c
 
 [MITM]
 hostname = fzyyj-signin.szcy-fintech.com
-
+*/
 // ========== 脚本内容 ==========
 const ENV = {
     COOKIE_KEY: "fzyyj_cookie",  // ⚠️ 修正前：COOKIE_KEY:"fzyyj_cookie"（冒号后应有空格）
