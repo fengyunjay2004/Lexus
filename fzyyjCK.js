@@ -1,9 +1,9 @@
-/*
-#!name=福仔云游获取CK (Surge专用版)
-#!desc=自动捕获游戏Cookie并通知
+
+/*#!name=福仔云游获取CK (Surge专用版)
+#!desc=自动捕获游戏Cookie并通知（仅首次变更时通知）
 
 [Script]
-fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/, script-path=https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyjCK.js, requires-body=true
+fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/signin\/taskList, script-path=https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyjCK.js, requires-body=true
 
 [MITM]
 hostname = fzyyj-signin.szcy-fintech.com
@@ -12,6 +12,7 @@ hostname = fzyyj-signin.szcy-fintech.com
 const ENV = {
     COOKIE_KEY: "fzyyj_cookie",
     AUTH_KEY: "fzyyj_auth",
+    LAST_AUTH_KEY: "fzyyj_last_auth",
     WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"
 };
 
@@ -44,26 +45,49 @@ const ENV = {
         const tokenMatch = cookie.match(/token=([^;]+)/i);
         if (!tokenMatch) throw new Error("Token提取失败");
         const auth = decodeURIComponent(tokenMatch[1]);
+        
+        // 获取上次保存的auth值
+        const lastAuth = $persistentStore.read(ENV.LAST_AUTH_KEY);
+        
+        // 保存当前auth值用于下次比较
+        $persistentStore.write(auth, ENV.LAST_AUTH_KEY);
+        
+        // 如果auth值没有变化，则不发送通知
+        if (lastAuth === auth) {
+            log("Token未变化，跳过通知");
+            return $done();
+        }
 
         // 保存数据
         $persistentStore.write(cookie, ENV.COOKIE_KEY);
         $persistentStore.write(auth, ENV.AUTH_KEY);
         
-        // 完整信息通知
-        notify("云游CK更新", `完整Token: ${auth}`);
+        // 本地通知
+        notify("云游CK更新", `检测到新Token:\n${auth}`);
 
-        // 企业微信通知
+        // 企业微信通知（纯文本格式）
         $httpClient.post({
             url: ENV.WEBHOOK_URL,
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                msgtype: "markdown",
-                markdown: {
-                    content: `**云游CK更新**\n更新时间：${new Date().toLocaleString()}\n完整Token：\n\`\`\`\n${auth}\n\`\`\``
+                msgtype: "text",
+                text: {
+                    content: `云游CK更新通知\n────────────────\n🕒 更新时间：${new Date().toLocaleString()}\n🔑 最新Token：\n${auth}\n────────────────\n⚠️ 该Token已自动保存至Surge`,
+                    mentioned_mobile_list: []  // 如需@所有人可改为 ["@all"]
                 }
             })
         }, (error, response, body) => {
-            log(error ? `推送失败: ${error}` : `推送成功: ${response.status}`);
+            if (error) {
+                log(`企业微信推送失败: ${error}`);
+            } else {
+                log(`企业微信推送成功，状态码: ${response.status}`);
+                if (body) {
+                    const result = JSON.parse(body);
+                    if (result.errcode !== 0) {
+                        log(`企业微信API返回错误: ${result.errmsg}`);
+                    }
+                }
+            }
         });
 
     } catch (e) {
