@@ -11,7 +11,7 @@ hostname = fzyyj-signin.szcy-fintech.com
 const ENV = {
     COOKIE_KEY: "fzyyj_cookie",
     AUTH_KEY: "fzyyj_auth",
-    WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your_key"
+    WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"
 };
 
 function mask(str) {
