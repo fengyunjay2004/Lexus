@@ -3,7 +3,7 @@
 #!desc=自动捕获游戏Cookie并通知
 
 [Script]
-fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/, script-path=https://example.com/fzyyj.js, requires-body=true
+fzyyj-sign = type=http-request, pattern=^https:\/\/fzyyj-signin\.szcy-fintech\.com\/fzyyj\/game\/, script-path=https://raw.githubusercontent.com/fengyunjay2004/Lexus/refs/heads/main/fzyyjCK.js, requires-body=true
 
 [MITM]
 hostname = fzyyj-signin.szcy-fintech.com
