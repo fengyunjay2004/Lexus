@@ -10,14 +10,10 @@ hostname = fzyyj-signin.szcy-fintech.com
 */
 // ========== 脚本内容 ==========
 const ENV = {
-    COOKIE_KEY: "fzyyj_cookie",  // ⚠️ 修正前：COOKIE_KEY:"fzyyj_cookie"（冒号后应有空格）
-    AUTH_KEY: "fzyyj_auth",      // ✅ 键值对标准写法
+    COOKIE_KEY: "fzyyj_cookie",
+    AUTH_KEY: "fzyyj_auth",
     WEBHOOK_URL: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=284b000b-784b-40b4-8a4a-893f4ab3b4b8"
 };
-
-function mask(str) {
-    return str ? `${str.slice(0,3)}****${str.slice(-3)}` : 'NULL';
-}
 
 (() => {
     // 初始化日志
@@ -34,7 +30,7 @@ function mask(str) {
     };
 
     // 主流程
-    if (!$request || !$request.url.includes("/fzyyj/game/")) {
+    if (!$request || !$request.url.includes("/fzyyj/game/signin/taskList")) {
         log("无效请求或URL不匹配");
         return $done();
     }
@@ -49,21 +45,21 @@ function mask(str) {
         if (!tokenMatch) throw new Error("Token提取失败");
         const auth = decodeURIComponent(tokenMatch[1]);
 
-        // 保存数据（Surge专用存储）
+        // 保存数据
         $persistentStore.write(cookie, ENV.COOKIE_KEY);
         $persistentStore.write(auth, ENV.AUTH_KEY);
         
-        // 安全通知（脱敏处理）
-        notify("云游CK更新", `Token: ${mask(auth)}`);
+        // 完整信息通知
+        notify("云游CK更新", `完整Token: ${auth}`);
 
-        // 企业微信通知（合并消息）
+        // 企业微信通知
         $httpClient.post({
             url: ENV.WEBHOOK_URL,
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
                 msgtype: "markdown",
                 markdown: {
-                    content: `**云游CK更新**\n更新时间：${new Date().toLocaleString()}\nToken尾号：||${mask(auth)}||`
+                    content: `**云游CK更新**\n更新时间：${new Date().toLocaleString()}\n完整Token：\n\`\`\`\n${auth}\n\`\`\``
                 }
             })
         }, (error, response, body) => {
